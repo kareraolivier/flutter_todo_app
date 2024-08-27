@@ -34,8 +34,8 @@ class _AboutUserListState extends State<AboutScreen> {
       } else {
         throw Exception('Failed to load users');
       }
-    } catch (e) {
-      throw Exception('Failed to fetch data: $e');
+    } catch (error) {
+      throw Exception('Failed to fetch data: $error');
     }
   }
 
