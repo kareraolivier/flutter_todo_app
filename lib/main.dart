@@ -20,12 +20,12 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
+      initialRoute: '/home',
       routes: {
         '/home': (context) => HomeScreen(),
         '/about': (context) => AboutScreen(),
         '/profile': (context) => ProfileScreen(),
       },
-      initialRoute: '/home',
     );
   }
 }
