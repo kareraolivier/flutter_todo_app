@@ -1,7 +1,5 @@
-import 'dart:convert';
-
+import '../api/fetch_data.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:todo_app/models/user.dart';
 import '../components/nav_bar.dart';
 
@@ -10,40 +8,37 @@ class AboutScreen extends StatefulWidget {
   _AboutUserListState createState() => _AboutUserListState();
 }
 
+Future<List<User>> fetchUsers(String url) async {
+  Iterable response = await fetchData(url);
+  return response.map((model) => User.fromJson(model)).toList();
+}
+
 class _AboutUserListState extends State<AboutScreen> {
   List<User> users = [];
   @override
   void initState() {
     super.initState();
-    _getUsers().then((response) {
+    fetchUsers('https://jsonplaceholder.typicode.com/users').then((userList) {
       setState(() {
-        Iterable list = json.decode(response);
-        users = list.map((model) => User.fromJson(model)).toList();
+        users = userList;
       });
     }).catchError((error) {
       print("Failed to fetch users: $error");
     });
   }
 
-  Future<String> _getUsers() async {
-    try {
-      final response = await http
-          .get(Uri.parse('https://jsonplaceholder.typicode.com/users'));
-      if (response.statusCode == 200) {
-        return response.body;
-      } else {
-        throw Exception('Failed to load users');
-      }
-    } catch (error) {
-      throw Exception('Failed to fetch data: $error');
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('About'),
+        title: Text(
+          'About',
+          style: TextStyle(color: Colors.white),
+        ),
+        iconTheme: IconThemeData(
+          color: Colors.white, // Change this to your desired color
+        ),
+        backgroundColor: Colors.blue,
       ),
       body: users.isEmpty
           ? Center(child: CircularProgressIndicator())
@@ -55,7 +50,7 @@ class _AboutUserListState extends State<AboutScreen> {
                 trailing: Icon(Icons.chevron_right),
                 onTap: () {
                   Navigator.pushNamed(context, '/profile',
-                      arguments: users[index]);
+                      arguments: users[index].id);
                 },
               ),
             ),

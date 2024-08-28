@@ -39,12 +39,19 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Todo App'),
+        title: Text(
+          'Todo App',
+          style: TextStyle(color: Colors.white),
+        ),
+        iconTheme: IconThemeData(
+          color: Colors.white, // Change this to your desired color
+        ),
+        backgroundColor: Colors.blue,
       ),
       body: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(12.0),
             child: Row(
               children: [
                 Expanded(
@@ -55,10 +62,19 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                 ),
-                SizedBox(width: 8),
+                SizedBox(width: 10),
                 ElevatedButton(
                   onPressed: _addTodo,
-                  child: Text('Add'),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.blue,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  child: Text(
+                    'Add',
+                    style: TextStyle(color: Colors.white),
+                  ),
                 ),
               ],
             ),
